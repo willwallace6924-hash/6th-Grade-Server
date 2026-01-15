@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kosmic Minecraft Server</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    header {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      padding: 30px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    header p {
+      margin-top: 8px;
+      font-size: 1.1rem;
+    }
+    section {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    h2 {
+      border-bottom: 2px solid #22c55e;
+      padding-bottom: 8px;
+    }
+    .card {
+      background: #020617;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+    .tier {
+      margin-bottom: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #020617;
+      border-left: 6px solid #22c55e;
+    }
+    .tier input {
+      width: 100%;
+      margin-top: 8px;
+      padding: 8px;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+    }
+    button {
+      background: #22c55e;
+      color: #020617;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+    button:hover {
+      background: #16a34a;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Kosmic Minecraft Server</h1>
+  <p>Competitive PvP • Custom Kits • Ranked Fights</p>
+</header>
+
+<section>
+  <h2>Server Info</h2>
+  <div class="card">
+    <p><strong>IP:</strong> play.kosmicmc.net</p>
+    <p><strong>Version:</strong> 1.20+</p>
+    <p><strong>Modes:</strong> Practice PvP, Duels, Kits</p>
+  </div>
+</section>
+
+<section>
+  <h2>PvP Tier List (Editable)</h2>
+  <div class="card" id="tiers"></div>
+  <button onclick="saveTiers()">Save Tier List</button>
+</section>
+
+<footer>
+  © 2026 KosmicMC. All rights reserved.
+</footer>
+
+<script>
+  const defaultTiers = {
+    "S Tier": "Netherite Sword PvP, Crystal PvP",
+    "A Tier": "Diamond Sword PvP, Axe PvP",
+    "B Tier": "Shield PvP",
+    "C Tier": "Bow PvP"
+  };
+
+  const tiersContainer = document.getElementById('tiers');
+
+  function loadTiers() {
+    const saved = JSON.parse(localStorage.getItem('pvpTiers')) || defaultTiers;
+    tiersContainer.innerHTML = '';
+
+    for (const tier in saved) {
+      const div = document.createElement('div');
+      div.className = 'tier';
+      div.innerHTML = `
+        <strong>${tier}</strong>
+        <input type="text" value="${saved[tier]}" />
+      `;
+      tiersContainer.appendChild(div);
+    }
+  }
+
+  function saveTiers() {
+    const tierDivs = document.querySelectorAll('.tier');
+    const data = {};
+
+    tierDivs.forEach(div => {
+      const tierName = div.querySelector('strong').innerText;
+      const value = div.querySelector('input').value;
+      data[tierName] = value;
+    });
+
+    localStorage.setItem('pvpTiers', JSON.stringify(data));
+    alert('Tier list saved!');
+  }
+
+  loadTiers();
+</script>
+
+</body>
+</html>
